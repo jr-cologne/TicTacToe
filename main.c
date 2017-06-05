@@ -115,13 +115,27 @@ int askForYCoordinate(char playerName[21]) {
 
     while (y > 3 || y <= 0) {
         printf("Ihre Eingabe entspricht nicht dem erwarteten Format. Bitte korrigieren Sie dies.\n");
-        printf("%s, die x-Koordinate > ", playerName);
+        printf("%s, die y-Koordinate > ", playerName);
         scanf("%d", &y);
         fflush(stdin);
         printf("\n");
     }
 
     return y;
+}
+
+int *askForCoordinates(char playerName[21]) {
+    int static coordinates[2];
+    int x;
+    int y;
+
+    x = askForXCoordinate(playerName);
+    y = askForYCoordinate(playerName);
+
+    coordinates[0] = x;
+    coordinates[1] = y;
+
+    return coordinates;
 }
 
 int main() {
@@ -131,6 +145,7 @@ int main() {
     char playerName[21];    // current player name
     int i, j, x, y;
     char field[3][3];
+    int *coordinates;
 
     // get names of players
     printf("Spieler X, bitte Namen eingeben (max. 20 Zeichen) > ");
@@ -162,19 +177,21 @@ int main() {
 
     while (!gameEnded(field)) {
         // ask player for coordinates
-        x = askForXCoordinate(playerName);
-        y = askForYCoordinate(playerName);
+        coordinates = askForCoordinates(playerName);
+        x = coordinates[0];
+        y = coordinates[1];
 
-        // set stone for player
+        // field is already taken, ask player again
         while (isTaken(x, y, field)) {
             printf("Das Feld ist bereits belegt. Bitte waehlen Sie ein anderes.\n\n");
 
             // ask player for coordinates
-            x = askForXCoordinate(playerName);
-            y = askForYCoordinate(playerName);
+            coordinates = askForCoordinates(playerName);
+            x = coordinates[0];
+            y = coordinates[1];
         }
 
-        // set stone
+        // set stone for player
         field[y-1][x-1] = player;
 
         // display field
@@ -205,10 +222,10 @@ int main() {
         printf("%s hat gewonnen. Herzlichen Glueckwunsch!\n", playerX);
     } else if (winner == 'O') {
         printf("%s hat gewonnen. Herzlichen Glueckwunsch!\n", playerO);
+    } else {
+        printf("Niemand hat gewonnen.\n");
+        printf("Das Spiel ist vorbei. Vielen Dank fuers Spielen!");
     }
-
-    printf("Niemand hat gewonnen.\n");
-    printf("Das Spiel ist vorbei. Vielen Dank fuers Spielen!");
 
     return 0;
 }
