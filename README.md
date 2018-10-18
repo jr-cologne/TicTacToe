@@ -1,6 +1,8 @@
 # TicTacToe
 A simple TicTacToe for the console written in C.
 
+**Please note**: This project is no longer maintained. You might want to check out my [TicTacToe game written in Java](https://github.com/jr-cologne/TicTacToe_Java) instead.
+
 ## Getting Started
 
 Do you want to play a round? Just download the zip file, unzip it and run `TicTacToe.exe`!
